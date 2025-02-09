@@ -11,30 +11,30 @@ import jakarta.persistence.Id;
 public class User {
 
     @Id
-    private String id;
-    private String nombre;
-    private String apellido;
+    private Long id;
+    private String firstName;
+    private String secondName;
     private String email;
     private String password;
     private LocalDate createAt;
     
-    public String getId() {
+    public Long getId() {
         return id;
     }
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
-    public String getNombre() {
-        return nombre;
+    public String getFirstName() {
+        return firstName;
     }
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
-    public String getApellido() {
-        return apellido;
+    public String getSecondName() {
+        return secondName;
     }
-    public void setApellido(String apellido) {
-        this.apellido = apellido;
+    public void setSecondName(String secondName) {
+        this.secondName = secondName;
     }
     public String getEmail() {
         return email;
