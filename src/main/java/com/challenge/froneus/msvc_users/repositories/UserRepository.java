@@ -10,9 +10,8 @@ import com.challenge.froneus.msvc_users.entities.User;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long>{
 
-    Optional<User> findById(String id);
+    Optional<User> findById(Long id);
 
-    void deleteById(String id);
+    void deleteById(Long id);
 
-    
 } 
