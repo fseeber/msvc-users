@@ -5,7 +5,8 @@ import org.slf4j.LoggerFactory;
 
 import com.challenge.froneus.msvc_users.entities.User;
 import com.challenge.froneus.msvc_users.exception.ResourceNotFoundException;
-import com.challenge.froneus.msvc_users.services.UserService;
+import com.challenge.froneus.msvc_users.services.UserServiceImpl;
+
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -23,9 +24,9 @@ import java.util.Optional;
 public class UserController {
 
     private static final Logger logger = LoggerFactory.getLogger(UserController.class);
-    private final UserService userService;
+    private final UserServiceImpl userService;
 
-    public UserController(UserService userService) {
+    public UserController(UserServiceImpl userService) {
         this.userService = userService;
     }
 

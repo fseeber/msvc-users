@@ -2,7 +2,8 @@ package com.challenge.froneus.msvc_users;
 
 import com.challenge.froneus.msvc_users.MsvcUsersApplication;
 import com.challenge.froneus.msvc_users.entities.User;
-import com.challenge.froneus.msvc_users.services.UserService;
+import com.challenge.froneus.msvc_users.services.UserServiceImpl;
+
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,7 @@ public class UserControllerTest {
     private MockMvc mockMvc;
 
     @MockBean
-    private UserService userService;
+    private UserServiceImpl userService;
 
     @Test
     void testCreateUser() throws Exception {

@@ -15,19 +15,19 @@ import org.mockito.*;
 import com.challenge.froneus.msvc_users.entities.User;
 import com.challenge.froneus.msvc_users.exception.ResourceNotFoundException;
 import com.challenge.froneus.msvc_users.repositories.UserRepository;
-import com.challenge.froneus.msvc_users.services.UserService;
+import com.challenge.froneus.msvc_users.services.UserServiceImpl;
 
 public class UserServiceTest {
 
     @Mock
     private UserRepository userRepository;
 
-    private UserService userService;
+    private UserServiceImpl userService;
 
     @BeforeEach
     public void setup() {
         MockitoAnnotations.openMocks(this);
-        userService = new UserService(userRepository);
+        userService = new UserServiceImpl(userRepository);
     }
 
     @Test

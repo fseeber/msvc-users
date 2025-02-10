@@ -3,7 +3,8 @@ package com.challenge.froneus.msvc_users;
 import com.challenge.froneus.msvc_users.entities.User;
 import com.challenge.froneus.msvc_users.exception.ValidationException;
 import com.challenge.froneus.msvc_users.repositories.UserRepository;
-import com.challenge.froneus.msvc_users.services.UserService;
+import com.challenge.froneus.msvc_users.services.UserServiceImpl;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -18,7 +19,7 @@ import java.time.LocalDate;
 public class UserBusinessLogicTest {
 
     @InjectMocks
-    private UserService userService;
+    private UserServiceImpl userService;
 
     @Mock
     private UserRepository userRepository;

@@ -13,12 +13,12 @@ import com.challenge.froneus.msvc_users.exception.ValidationException;
 import com.challenge.froneus.msvc_users.repositories.UserRepository;
 
 @Service
-public class UserService {
+public class UserServiceImpl implements UserSerivce {
 
-    private static final Logger logger = LoggerFactory.getLogger(UserService.class);
+    private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
     private final UserRepository userRepository;
 
-    public UserService(UserRepository userRepository) {
+    public UserServiceImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
