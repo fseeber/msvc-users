@@ -15,19 +15,19 @@ import org.mockito.*;
 import com.challenge.froneus.msvc_users.entities.User;
 import com.challenge.froneus.msvc_users.exception.ResourceNotFoundException;
 import com.challenge.froneus.msvc_users.repositories.UserRepository;
-import com.challenge.froneus.msvc_users.services.UserService;
+import com.challenge.froneus.msvc_users.services.UserServiceImpl;
 
 public class UserServiceTest {
 
     @Mock
     private UserRepository userRepository;
 
-    private UserService userService;
+    private UserServiceImpl userService;
 
     @BeforeEach
     public void setup() {
         MockitoAnnotations.openMocks(this);
-        userService = new UserService(userRepository);
+        userService = new UserServiceImpl(userRepository);
     }
 
     @Test
@@ -37,9 +37,9 @@ public class UserServiceTest {
         User updatedUser = new User(1L, "John", "Doe", "john.newemail@example.com", "newpassword123", LocalDate.now());
 
         when(userRepository.findById(1L)).thenReturn(Optional.of(existingUser));
-        
+
         when(userRepository.existsById(1L)).thenReturn(true);
-        
+
         when(userRepository.save(any(User.class))).thenReturn(updatedUser);
 
         User result = userService.updateUser(1L, updatedUser);
@@ -50,8 +50,6 @@ public class UserServiceTest {
         verify(userRepository, times(1)).save(updatedUser);
     }
 
-
-
     @Test
     public void testUpdateUser_NotFound() {
         User user = new User(1L, "John", "Doe", "john.doe@example.com", "password123", LocalDate.now());
@@ -60,7 +58,7 @@ public class UserServiceTest {
 
         assertThrows(ResourceNotFoundException.class, () -> userService.updateUser(1L, user));
     }
-    
+
     @Test
     public void testDeleteUser_Success() {
         when(userRepository.existsById(1L)).thenReturn(true);
