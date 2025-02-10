@@ -1,0 +1,23 @@
+Mejoras: 
+
+- Agregar javadoc 
+- separa los tests por package
+- Agregar test para todos los endpoints
+- separa las entidades de los DTOs
+
+- @PutMapping("/{id}")
+    public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody User user) {
+	no es necesario pasarle el id por pathvariable
+    en el body deberia viajar
+- @GetMapping("/{id}") suena mas a un getUserByID
+
+- quitar archivos innecesarios 
+mvnw
+mvnw
+.gitattributes
+.mvn/wrapper 
+
+
+-agregar try catch
+-agregar dni a User
+y verificar si existe el usuario por dni
