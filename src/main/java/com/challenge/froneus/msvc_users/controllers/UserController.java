@@ -6,7 +6,11 @@ import org.slf4j.LoggerFactory;
 import com.challenge.froneus.msvc_users.entities.User;
 import com.challenge.froneus.msvc_users.exception.ResourceNotFoundException;
 import com.challenge.froneus.msvc_users.services.UserService;
-
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,6 +28,14 @@ public class UserController {
         this.userService = userService;
     }
 
+    @Operation(summary = "Crear un nuevo usuario")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Usuario creado exitosamente",
+                         content = {@Content(mediaType = "application/json",
+                         schema = @Schema(implementation = User.class))}),
+            @ApiResponse(responseCode = "400", description = "Datos inválidos proporcionados",
+                         content = @Content)
+    })
     @PostMapping
     public ResponseEntity<User> createUser(@RequestBody User user) {
         logger.info("Intentando crear un nuevo usuario con los datos: {}", user);
@@ -32,6 +44,14 @@ public class UserController {
         return ResponseEntity.status(201).body(createdUser);
     }
 
+    @Operation(summary = "Obtener un usuario por su ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Usuario encontrado",
+                         content = {@Content(mediaType = "application/json",
+                         schema = @Schema(implementation = User.class))}),
+            @ApiResponse(responseCode = "404", description = "Usuario no encontrado",
+                         content = @Content)
+    })
     @GetMapping("/{id}")
     public ResponseEntity<User> getUserById(@PathVariable Long id) {
         logger.info("Buscando usuario con ID: {}", id);
@@ -46,6 +66,11 @@ public class UserController {
         }
     }
 
+    @Operation(summary = "Obtener todos los usuarios")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Lista de usuarios obtenida exitosamente",
+                         content = {@Content(mediaType = "application/json")})
+    })
     @GetMapping
     public ResponseEntity<List<User>> getAllUsers() {
         logger.info("Obteniendo lista de todos los usuarios");
@@ -54,6 +79,14 @@ public class UserController {
         return ResponseEntity.ok(users);
     }
 
+    @Operation(summary = "Actualizar un usuario por su ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Usuario actualizado exitosamente",
+                         content = {@Content(mediaType = "application/json",
+                         schema = @Schema(implementation = User.class))}),
+            @ApiResponse(responseCode = "404", description = "Usuario no encontrado",
+                         content = @Content)
+    })
     @PutMapping("/{id}")
     public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody User user) {
         logger.info("Actualizando usuario con ID: {}", id);
@@ -67,7 +100,12 @@ public class UserController {
         logger.info("Usuario con ID {} actualizado exitosamente", id);
         return ResponseEntity.ok(updatedUser);
     }
-
+    
+    @Operation(summary = "Eliminar un usuario por su ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Usuario eliminado exitosamente"),
+            @ApiResponse(responseCode = "404", description = "Usuario no encontrado")
+    })
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
         logger.info("Intentando eliminar usuario con ID: {}", id);
