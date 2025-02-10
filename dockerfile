@@ -1,19 +1,13 @@
 # Fase de construcción
-FROM ubuntu:latest AS build
-
-# Actualizar el sistema e instalar OpenJDK 17
-RUN apt-get update
-RUN apt-get install openjdk-17-jdk -y
+FROM maven:3.8.1-openjdk-17 AS build
 
 # Copiar todo el contenido del proyecto al contenedor
-COPY . .
+COPY . /app
 
-# Dar permisos de ejecución al script de Maven Wrapper
-RUN chmod +x mvnw
-RUN chmod +x ./mvnw
+# Establecer el directorio de trabajo
+WORKDIR /app
 
 # Descargar las dependencias y luego compilar el proyecto
-RUN ./mvnw dependency:go-offline -B
 RUN ./mvnw clean package -DskipTests
 
 # Fase de ejecución
@@ -23,4 +17,7 @@ FROM openjdk:17-jdk-slim
 EXPOSE 8080
 
 # Copiar el archivo JAR construido en la fase de build al contenedor
-COPY --from=build target/msvc-users-0.0.1-SNAPSHOT.jar app.jar
+COPY --from=build /app/target/msvc-users-0.0.1-SNAPSHOT.jar app.jar
+
+# Definir el comando para ejecutar la aplicación
+ENTRYPOINT ["java", "-jar", "app.jar"]
