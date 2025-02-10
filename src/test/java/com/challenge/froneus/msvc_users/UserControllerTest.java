@@ -1,4 +1,6 @@
 package com.challenge.froneus.msvc_users;
+
+import com.challenge.froneus.msvc_users.MsvcUsersApplication;
 import com.challenge.froneus.msvc_users.entities.User;
 import com.challenge.froneus.msvc_users.services.UserService;
 import org.junit.jupiter.api.Test;
@@ -30,11 +32,12 @@ public class UserControllerTest {
         Mockito.when(userService.createUser(Mockito.any(User.class))).thenReturn(user);
 
         mockMvc.perform(post("/users")
-            .contentType(MediaType.APPLICATION_JSON)
-            .content("{\"firstName\": \"John\", \"secondName\": \"Doe\", \"email\": \"john.doe@example.com\", \"password\": \"password123\"}"))
-            .andExpect(status().isCreated())  
-            .andExpect(jsonPath("$.firstName").value("John"))
-            .andExpect(jsonPath("$.secondName").value("Doe"))
-            .andExpect(jsonPath("$.email").value("john.doe@example.com"));
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(
+                        "{\"firstName\": \"John\", \"secondName\": \"Doe\", \"email\": \"john.doe@example.com\", \"password\": \"password123\"}"))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.firstName").value("John"))
+                .andExpect(jsonPath("$.secondName").value("Doe"))
+                .andExpect(jsonPath("$.email").value("john.doe@example.com"));
     }
 }

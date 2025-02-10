@@ -31,11 +31,9 @@ public class UserController {
 
     @Operation(summary = "Crear un nuevo usuario")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "Usuario creado exitosamente",
-                         content = {@Content(mediaType = "application/json",
-                         schema = @Schema(implementation = User.class))}),
-            @ApiResponse(responseCode = "400", description = "Datos inválidos proporcionados",
-                         content = @Content)
+            @ApiResponse(responseCode = "201", description = "Usuario creado exitosamente", content = {
+                    @Content(mediaType = "application/json", schema = @Schema(implementation = User.class)) }),
+            @ApiResponse(responseCode = "400", description = "Datos inválidos proporcionados", content = @Content)
     })
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<User> createUser(@RequestBody User user) {
@@ -52,17 +50,15 @@ public class UserController {
 
     @Operation(summary = "Obtener un usuario por su ID")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Usuario encontrado",
-                         content = {@Content(mediaType = "application/json",
-                         schema = @Schema(implementation = User.class))}),
-            @ApiResponse(responseCode = "404", description = "Usuario no encontrado",
-                         content = @Content)
+            @ApiResponse(responseCode = "200", description = "Usuario encontrado", content = {
+                    @Content(mediaType = "application/json", schema = @Schema(implementation = User.class)) }),
+            @ApiResponse(responseCode = "404", description = "Usuario no encontrado", content = @Content)
     })
     @GetMapping("/{id}")
     public ResponseEntity<User> getUserById(@PathVariable Long id) {
         logger.info("Buscando usuario con ID: {}", id);
         Optional<User> user = userService.getUserById(id);
-        
+
         if (user.isPresent()) {
             logger.debug("Usuario encontrado: {}", user.get());
             return ResponseEntity.ok(user.get());
@@ -74,8 +70,8 @@ public class UserController {
 
     @Operation(summary = "Obtener todos los usuarios")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Lista de usuarios obtenida exitosamente",
-                         content = {@Content(mediaType = "application/json")})
+            @ApiResponse(responseCode = "200", description = "Lista de usuarios obtenida exitosamente", content = {
+                    @Content(mediaType = "application/json") })
     })
     @GetMapping
     public ResponseEntity<List<User>> getAllUsers() {
@@ -87,11 +83,9 @@ public class UserController {
 
     @Operation(summary = "Actualizar un usuario por su ID")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Usuario actualizado exitosamente",
-                         content = {@Content(mediaType = "application/json",
-                         schema = @Schema(implementation = User.class))}),
-            @ApiResponse(responseCode = "404", description = "Usuario no encontrado",
-                         content = @Content)
+            @ApiResponse(responseCode = "200", description = "Usuario actualizado exitosamente", content = {
+                    @Content(mediaType = "application/json", schema = @Schema(implementation = User.class)) }),
+            @ApiResponse(responseCode = "404", description = "Usuario no encontrado", content = @Content)
     })
     @PutMapping("/{id}")
     public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody User user) {
@@ -106,7 +100,7 @@ public class UserController {
         logger.info("Usuario con ID {} actualizado exitosamente", id);
         return ResponseEntity.ok(updatedUser);
     }
-    
+
     @Operation(summary = "Eliminar un usuario por su ID")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "Usuario eliminado exitosamente"),
