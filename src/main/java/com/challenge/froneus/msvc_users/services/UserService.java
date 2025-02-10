@@ -25,9 +25,14 @@ public class UserService {
     }
 
     public User createUser(User user) {
-        logger.info("Guardando un nuevo usuario: {}", user);
-        validateUser(user);
-        return userRepository.save(user);
+        try {
+            logger.info("Guardando un nuevo usuario: {}", user);
+            validateUser(user);
+            return userRepository.save(user);
+        } catch (Exception e) {
+            logger.error("Error al crear el usuario: ", e);
+            throw new ValidationException("Error al crear el usuario");
+        }
     }
 
     public Optional<User> getUserById(Long id) {
@@ -61,20 +66,34 @@ public class UserService {
         }
         userRepository.deleteById(id);
     }
-     private void validateUser(User user) {
+    private void validateUser(User user) {
         if (user.getFirstName() == null || user.getFirstName().trim().isEmpty()) {
             logger.warn("Validación fallida para el usuario: {} - El nombre está vacío.", user);
             throw new ValidationException("El nombre del usuario no puede estar vacío.");
         }
+        if (user.getFirstName().matches(".*\\d.*")) {  
+            logger.warn("Validación fallida para el usuario: {} - El nombre no puede contener números.", user);
+            throw new ValidationException("El primer nombre no puede contener números.");
+        }
+    
         if (user.getSecondName() == null || user.getSecondName().trim().isEmpty()) {
             logger.warn("Validación fallida para el usuario: {} - El apellido está vacío.", user);
             throw new ValidationException("El apellido del usuario no puede estar vacío.");
         }
+        if (user.getSecondName().matches(".*\\d.*")) {  
+            logger.warn("Validación fallida para el usuario: {} - El apellido no puede contener números.", user);
+            throw new ValidationException("El apellido no puede contener números.");
+        }
+    
         if (user.getEmail() == null || !user.getEmail().contains("@")) {
             logger.warn("Validación fallida para el usuario: {} - Email inválido.", user);
             throw new ValidationException("El email proporcionado no es válido.");
         }
-    } 
+        if (!user.getEmail().matches("^[A-Za-z0-9+_.-]+@(.+)$")) { 
+            logger.warn("Validación fallida para el usuario: {} - Email con formato incorrecto.", user);
+            throw new ValidationException("El email proporcionado no tiene un formato válido.");
+        }
+    }
 
     public boolean existsById(Long id) {
         logger.debug("Verificando si existe el usuario con ID: {}", id);

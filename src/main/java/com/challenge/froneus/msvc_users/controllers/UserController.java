@@ -13,6 +13,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.http.MediaType;
 
 import java.util.List;
 import java.util.Optional;
@@ -36,12 +37,17 @@ public class UserController {
             @ApiResponse(responseCode = "400", description = "Datos inválidos proporcionados",
                          content = @Content)
     })
-    @PostMapping
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<User> createUser(@RequestBody User user) {
-        logger.info("Intentando crear un nuevo usuario con los datos: {}", user);
-        User createdUser = userService.createUser(user);
-        logger.info("Usuario creado exitosamente con ID: {}", createdUser.getId());
-        return ResponseEntity.status(201).body(createdUser);
+        try {
+            logger.info("Intentando crear un nuevo usuario con los datos: {}", user);
+            User createdUser = userService.createUser(user);
+            logger.info("Usuario creado exitosamente con ID: {}", createdUser.getId());
+            return ResponseEntity.status(201).body(createdUser);
+        } catch (Exception e) {
+            logger.error("Error al crear el usuario: ", e);
+            return ResponseEntity.status(500).body(null);
+        }
     }
 
     @Operation(summary = "Obtener un usuario por su ID")
